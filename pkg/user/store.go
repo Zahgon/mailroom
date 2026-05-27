@@ -49,71 +49,34 @@ type InMemoryStore struct {
 var _ Store = &InMemoryStore{}
 
 // NewInMemoryStore creates a new in-memory store with the given users
-func NewInMemoryStore(users ...*User) *InMemoryStore {
-	return &InMemoryStore{users: users}
-}
+func NewInMemoryStore(users ...*User) *InMemoryStore { _ = "STUB: not implemented"; return nil }
 
 // Add adds a user to the in-memory store
 func (s *InMemoryStore) Add(_ context.Context, u *User) error {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	s.users = append(s.users, u)
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (s *InMemoryStore) Get(_ context.Context, key string) (*User, error) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-
-	for _, u := range s.users {
-		if u.Key == key {
-			return u, nil
-		}
-	}
-
-	return nil, ErrUserNotFound
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (s *InMemoryStore) GetByIdentifier(ctx context.Context, identifier identifier.Identifier) (*User, error) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-
-	isEmail := identifier.Kind() == "email"
-
-	for _, u := range s.users {
-		for _, existing := range u.Identifiers.ToList() {
-			// Look for an exact match
-			if existing.NamespaceAndKind == identifier.NamespaceAndKind && existing.Value == identifier.Value {
-				return u, nil
-			}
-
-			// Or if the identifier is an email, look for any matching email
-			if isEmail && existing.Kind() == "email" && existing.Value == identifier.Value {
-				return u, nil
-			}
-		}
-	}
-
-	return nil, ErrUserNotFound
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (s *InMemoryStore) Find(ctx context.Context, possibleIdentifiers identifier.Set) (*User, error) {
-	for _, i := range possibleIdentifiers.ToList() {
-		u, err := s.GetByIdentifier(ctx, i)
-		if err == nil {
-			return u, nil
-		}
-	}
+// Look for an exact match
 
-	return nil, ErrUserNotFound
+// Or if the identifier is an email, look for any matching email
+
+func (s *InMemoryStore) Find(ctx context.Context, possibleIdentifiers identifier.Set) (*User, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (s *InMemoryStore) SetPreferences(ctx context.Context, key string, prefs preference.Map) error {
-	u, err := s.Get(ctx, key)
-	if err != nil {
-		return err
-	}
-	u.Preferences = prefs
+	_ = "STUB: not implemented"
 	return nil
 }

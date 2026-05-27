@@ -6,7 +6,6 @@ package preference
 
 import (
 	"context"
-	"errors"
 
 	"github.com/seatgeek/mailroom/pkg/event"
 	"github.com/seatgeek/mailroom/pkg/validation"
@@ -23,7 +22,8 @@ type Provider interface {
 type Func func(context.Context, event.Notification, event.TransportKey) *bool
 
 func (f Func) Wants(ctx context.Context, notification event.Notification, transport event.TransportKey) *bool {
-	return f(ctx, notification, transport)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Chain is a sequence of Provider instances that will be checked in order until one returns a non-nil value.
@@ -32,53 +32,26 @@ type Chain []Provider
 var _ validation.Validator = (*Chain)(nil)
 
 func (c Chain) Wants(ctx context.Context, notification event.Notification, transport event.TransportKey) *bool {
-	for _, pref := range c {
-		if result := pref.Wants(ctx, notification, transport); result != nil {
-			return result
-		}
-	}
-
-	// If no preferences matched, return nil to indicate no explicit preference.
+	_ = "STUB: not implemented"
 	return nil
 }
 
-func (c Chain) Validate(ctx context.Context) error {
-	errs := make([]error, 0, len(c))
-	for _, pref := range c {
-		if v, ok := pref.(validation.Validator); ok {
-			if err := v.Validate(ctx); err != nil {
-				errs = append(errs, err)
-				continue
-			}
-		}
-	}
+// If no preferences matched, return nil to indicate no explicit preference.
 
-	return errors.Join(errs...)
-}
+func (c Chain) Validate(ctx context.Context) error { _ = "STUB: not implemented"; return nil }
 
 // Map defines preferences by event type and transport.
 // For example, a user may want to receive PR review request notifications via Slack but not email.
 type Map map[event.Type]map[event.TransportKey]bool
 
 func (p Map) Wants(_ context.Context, notification event.Notification, transport event.TransportKey) *bool {
-	eventType := notification.Context().Type
-
-	if _, exists := p[eventType]; !exists {
-		// No preference set for this event
-		return nil
-	}
-
-	if want, exists := p[eventType][transport]; exists {
-		return &want
-	}
-
-	// No preference set for this transport
+	_ = "STUB: not implemented"
 	return nil
 }
 
+// No preference set for this event
+
+// No preference set for this transport
+
 // Default returns a Provider implementation that always returns the given boolean value.
-func Default(wants bool) Func {
-	return func(_ context.Context, _ event.Notification, _ event.TransportKey) *bool {
-		return &wants
-	}
-}
+func Default(wants bool) Func { _ = "STUB: not implemented"; return *new(Func) }

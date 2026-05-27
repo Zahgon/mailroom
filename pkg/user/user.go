@@ -22,59 +22,27 @@ type User struct {
 }
 
 // New creates a new User with the given options
-func New(key string, options ...Option) *User {
-	u := &User{
-		Key:         key,
-		Identifiers: identifier.NewSet(),
-		Preferences: make(preference.Map),
-	}
-
-	for _, opt := range options {
-		opt(u)
-	}
-
-	return u
-}
+func New(key string, options ...Option) *User { _ = "STUB: not implemented"; return nil }
 
 type Option func(*User)
 
 // WithIdentifier adds an identifier to a User
 func WithIdentifier(id identifier.Identifier) Option {
-	return func(u *User) {
-		u.Identifiers.Add(id)
-	}
+	_ = "STUB: not implemented"
+	return *new(Option)
 }
 
 // WithIdentifiers adds multiple identifiers to a User
-func WithIdentifiers(ids identifier.Set) Option {
-	return func(u *User) {
-		u.Identifiers.Merge(ids)
-	}
-}
+func WithIdentifiers(ids identifier.Set) Option { _ = "STUB: not implemented"; return *new(Option) }
 
 // WithPreference adds a notification preference to a User
 func WithPreference(evt event.Type, transport event.TransportKey, wants bool) Option {
-	return func(u *User) {
-		if u.Preferences[evt] == nil {
-			u.Preferences[evt] = make(map[event.TransportKey]bool)
-		}
-
-		u.Preferences[evt][transport] = wants
-	}
+	_ = "STUB: not implemented"
+	return *new(Option)
 }
 
 // WithPreferences sets all the Provider for a User
-func WithPreferences(p preference.Map) Option {
-	return func(u *User) {
-		u.Preferences = p
-	}
-}
+func WithPreferences(p preference.Map) Option { _ = "STUB: not implemented"; return *new(Option) }
 
 // String returns a simple string representation of a User's identify (useful for logging)
-func (r *User) String() string {
-	if (r == nil) || (r.Identifiers == nil) {
-		return "<unknown>"
-	}
-
-	return r.Identifiers.String()
-}
+func (r *User) String() string { _ = "STUB: not implemented"; return "" }

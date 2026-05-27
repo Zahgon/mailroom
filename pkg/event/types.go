@@ -7,7 +7,6 @@ package event
 
 import (
 	"context"
-	"maps"
 	"net/http"
 	"net/url"
 	"time"
@@ -44,51 +43,41 @@ type Context struct {
 
 // WithID returns a copy of the Context with the ID field set to the provided value
 func (c Context) WithID(newID ID) Context {
-	c.ID = newID
-	return c
+	_ = "STUB: not implemented"
+	return *
+
+	// WithSource returns a copy of the Context with the Source field set to the provided value
+	new(Context)
 }
 
-// WithSource returns a copy of the Context with the Source field set to the provided value
 func (c Context) WithSource(newSource Source) Context {
-	c.Source = newSource
-	return c
+	_ = "STUB: not implemented"
+	return *new(Context)
 }
 
 // WithType returns a copy of the Context with the Type field set to the provided value
-func (c Context) WithType(newType Type) Context {
-	c.Type = newType
-	return c
-}
+func (c Context) WithType(newType Type) Context { _ = "STUB: not implemented"; return *new(Context) }
 
 // WithSubject returns a copy of the Context with the Subject field set to the provided value
 func (c Context) WithSubject(newSubject string) Context {
-	c.Subject = newSubject
-	return c
+	_ = "STUB: not implemented"
+	return *new(Context)
 }
 
 // WithTime returns a copy of the Context with the Time field set to the provided value
 func (c Context) WithTime(newTime time.Time) Context {
-	c.Time = newTime
-	return c
+	_ = "STUB: not implemented"
+	return *new(Context)
 }
 
 // WithLabels returns a copy of the Context with the Labels field set to the provided value
 func (c Context) WithLabels(newLabels map[string]string) Context {
-	c.Labels = newLabels
-	return c
+	_ = "STUB: not implemented"
+	return *new(Context)
 }
 
 // Copy creates a deep copy of the Context
-func (c Context) Copy() Context {
-	return Context{
-		ID:      c.ID,
-		Source:  c.Source,
-		Type:    c.Type,
-		Subject: c.Subject,
-		Time:    c.Time,
-		Labels:  maps.Clone(c.Labels),
-	}
-}
+func (c Context) Copy() Context { _ = "STUB: not implemented"; return *new(Context) }
 
 // ID is a unique identifier for an event occurrence
 // It should be a non-empty string that is unique within the context of the EventSource
@@ -104,38 +93,12 @@ type Source struct {
 
 // NewSource creates a new EventSource from a URI string
 // If the URI is invalid, it will return nil
-func NewSource(uri string) *Source {
-	if uri == "" {
-		return nil
-	}
-
-	parsed, err := url.Parse(uri)
-	if err != nil {
-		return nil
-	}
-
-	return &Source{
-		uri: *parsed,
-	}
-}
+func NewSource(uri string) *Source { _ = "STUB: not implemented"; return nil }
 
 // MustSource creates a new EventSource from a URI string, panicking if the URI is invalid
-func MustSource(uri string) Source {
-	s := NewSource(uri)
-	if s == nil {
-		panic("invalid source URI")
-	}
+func MustSource(uri string) Source { _ = "STUB: not implemented"; return *new(Source) }
 
-	return *s
-}
-
-func (s *Source) String() string {
-	if s == nil {
-		return ""
-	}
-
-	return s.uri.String()
-}
+func (s *Source) String() string { _ = "STUB: not implemented"; return "" }
 
 // Type describes the type of event related to the originating occurrence.
 // It may be used for routing, observability, etc. It must comply with CloudEvent `type` spec:
@@ -180,5 +143,6 @@ type Processor interface {
 type ProcessorFunc func(ctx context.Context, evt Event, notifications []Notification) ([]Notification, error)
 
 func (f ProcessorFunc) Process(ctx context.Context, evt Event, notifications []Notification) ([]Notification, error) {
-	return f(ctx, evt, notifications)
+	_ = "STUB: not implemented"
+	return nil, nil
 }

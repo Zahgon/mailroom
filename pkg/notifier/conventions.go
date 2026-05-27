@@ -8,14 +8,11 @@ package notifier
 import (
 	"context"
 
-	"github.com/cenkalti/backoff/v5"
 	"github.com/seatgeek/mailroom/pkg/event"
 )
 
 // Permanent wraps the given err as a permanent error which should not be retried
-func Permanent(err error) error {
-	return backoff.Permanent(err)
-}
+func Permanent(err error) error { _ = "STUB: not implemented"; return nil }
 
 // Func is a function that sends a notification
 type Func func(context.Context, event.Notification) error

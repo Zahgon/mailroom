@@ -6,7 +6,6 @@ package notifier
 
 import (
 	"context"
-	"fmt"
 	"io"
 
 	"github.com/seatgeek/mailroom/pkg/event"
@@ -22,23 +21,17 @@ type WriterNotifier struct {
 var _ Transport = &WriterNotifier{}
 
 func (c *WriterNotifier) Key() event.TransportKey {
-	return c.key
+	_ = "STUB: not implemented"
+	return *new(event.TransportKey)
 }
 
 func (c *WriterNotifier) Push(_ context.Context, n event.Notification) error {
-	_, err := fmt.Fprintf(
-		c.writer,
-		"notification: id=%s type=%s, to=%s, message=%s\n",
-		n.Context().ID,
-		n.Context().Type,
-		n.Recipient(),
-		n.Render("writer"),
-	)
-
-	return err
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewWriterNotifier creates a Notifier that writes notifications to places like files or stdout
 func NewWriterNotifier(key event.TransportKey, writer io.Writer) *WriterNotifier {
-	return &WriterNotifier{key: key, writer: writer}
+	_ = "STUB: not implemented"
+	return nil
 }

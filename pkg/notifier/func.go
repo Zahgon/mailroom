@@ -16,15 +16,12 @@ type notifier struct {
 }
 
 func (n notifier) Push(ctx context.Context, notification event.Notification) error {
-	return n.pushFunc(ctx, notification)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewNotifier creates a new Notifier from a push function
-func NewNotifier(pushFunc Func) Notifier {
-	return &notifier{
-		pushFunc: pushFunc,
-	}
-}
+func NewNotifier(pushFunc Func) Notifier { _ = "STUB: not implemented"; return *new(Notifier) }
 
 // transport provides a shortcut for using a function as a Transport
 type transport struct {
@@ -33,17 +30,17 @@ type transport struct {
 }
 
 func (t transport) Key() event.TransportKey {
-	return t.key
+	_ = "STUB: not implemented"
+	return *new(event.TransportKey)
 }
 
 func (t transport) Push(ctx context.Context, notification event.Notification) error {
-	return t.pushFunc(ctx, notification)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewTransport creates a new Transport from a key and a push function
 func NewTransport(key event.TransportKey, pushFunc Func) Transport {
-	return &transport{
-		key:      key,
-		pushFunc: pushFunc,
-	}
+	_ = "STUB: not implemented"
+	return *new(Transport)
 }

@@ -6,10 +6,6 @@
 package identifier
 
 import (
-	"encoding/json"
-	"fmt"
-	"maps"
-	"strings"
 	"sync"
 )
 
@@ -31,32 +27,16 @@ var (
 )
 
 // Split returns the namespace and kind parts of the NamespaceAndKind.
-func (n NamespaceAndKind) Split() (string, string) {
-	parts := strings.SplitN(string(n), "/", 2)
-	if len(parts) == 1 {
-		return "", parts[0]
-	}
+func (n NamespaceAndKind) Split() (string, string) { _ = "STUB: not implemented"; return "", "" }
 
-	return parts[0], parts[1]
-}
+func (n NamespaceAndKind) Namespace() string { _ = "STUB: not implemented"; return "" }
 
-func (n NamespaceAndKind) Namespace() string {
-	namespace, _ := n.Split()
-	return namespace
-}
-
-func (n NamespaceAndKind) Kind() Kind {
-	_, kind := n.Split()
-	return Kind(kind)
-}
+func (n NamespaceAndKind) Kind() Kind { _ = "STUB: not implemented"; return *new(Kind) }
 
 // NewNamespaceAndKind creates a new NamespaceAndKind from a namespace and a Kind.
 func NewNamespaceAndKind[T ~string](namespace string, kind T) NamespaceAndKind {
-	if namespace == "" {
-		return NamespaceAndKind(kind)
-	}
-
-	return NamespaceAndKind(fmt.Sprintf("%s/%s", namespace, kind))
+	_ = "STUB: not implemented"
+	return *new(NamespaceAndKind)
 }
 
 // Kind represents the type of identifier, such as an "email" or "username".
@@ -82,10 +62,8 @@ type valueType interface {
 
 // New creates a new Identifier for a given namespaceAndKind and a value.
 func New[T1 ~string, T2 valueType](namespaceAndKind T1, value T2) Identifier {
-	return Identifier{
-		NamespaceAndKind: NamespaceAndKind(namespaceAndKind),
-		Value:            fmt.Sprint(value),
-	}
+	_ = "STUB: not implemented"
+	return *new(Identifier)
 }
 
 // Set holds a thread-safe map of NamespaceAndKind to a value.
@@ -108,141 +86,44 @@ type set struct {
 	mutex sync.RWMutex
 }
 
-func (c *set) Len() int {
-	c.mutex.RLock()
-	defer c.mutex.RUnlock()
-
-	return len(c.ids)
-}
+func (c *set) Len() int { _ = "STUB: not implemented"; return 0 }
 
 func (c *set) Get(namespaceAndKind NamespaceAndKind) (string, bool) {
-	c.mutex.RLock()
-	defer c.mutex.RUnlock()
-
-	val, ok := c.ids[namespaceAndKind]
-	return val, ok
+	_ = "STUB: not implemented"
+	return "", false
 }
 
 func (c *set) MustGet(namespaceAndKind NamespaceAndKind) string {
-	c.mutex.RLock()
-	defer c.mutex.RUnlock()
-
-	val, ok := c.ids[namespaceAndKind]
-	if !ok {
-		panic(fmt.Sprintf("no value found for %s", namespaceAndKind))
-	}
-
-	return val
+	_ = "STUB: not implemented"
+	return ""
 }
 
-func (c *set) Add(id Identifier) {
-	c.mutex.Lock()
-	defer c.mutex.Unlock()
-
-	c.ids[id.NamespaceAndKind] = id.Value
-}
+func (c *set) Add(id Identifier) { _ = "STUB: not implemented"; return }
 
 // Merge adds all the identifiers from another Set to this Set.
-func (c *set) Merge(otherIdentifiers Set) {
-	for _, id := range otherIdentifiers.ToList() {
-		c.Add(id)
-	}
-}
+func (c *set) Merge(otherIdentifiers Set) { _ = "STUB: not implemented"; return }
 
 // Intersect returns a new Set that contains only the identifiers that are present in both this Set and another Set.
-func (c *set) Intersect(other Set) Set {
-	if c.Len() == 0 || other.Len() == 0 {
-		return NewSet()
-	}
-
-	c.mutex.RLock()
-	defer c.mutex.RUnlock()
-
-	var common []Identifier
-	for _, id := range other.ToList() {
-		if val, ok := c.ids[id.NamespaceAndKind]; ok && val == id.Value {
-			common = append(common, id)
-		}
-	}
-
-	return NewSet(common...)
-}
+func (c *set) Intersect(other Set) Set { _ = "STUB: not implemented"; return *new(Set) }
 
 // ToList returns the Set as a slice of Identifier objects.
-func (c *set) ToList() []Identifier {
-	c.mutex.RLock()
-	defer c.mutex.RUnlock()
+func (c *set) ToList() []Identifier { _ = "STUB: not implemented"; return nil }
 
-	res := make([]Identifier, 0, len(c.ids))
-	for key, val := range c.ids {
-		res = append(res, Identifier{
-			NamespaceAndKind: key,
-			Value:            val,
-		})
-	}
+func (c *set) String() string { _ = "STUB: not implemented"; return "" }
 
-	return res
-}
-
-func (c *set) String() string {
-	c.mutex.RLock()
-	defer c.mutex.RUnlock()
-
-	return strings.TrimPrefix(fmt.Sprintf("%v", c.ids), "map")
-}
-
-func (c *set) MarshalJSON() ([]byte, error) {
-	c.mutex.RLock()
-	defer c.mutex.RUnlock()
-
-	return json.Marshal(c.ids)
-}
+func (c *set) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
 
 // Copy creates a deep copy of the Set.
-func (c *set) Copy() Set {
-	c.mutex.RLock()
-	defer c.mutex.RUnlock()
-
-	res := &set{
-		ids: make(map[NamespaceAndKind]string, len(c.ids)),
-	}
-
-	maps.Copy(res.ids, c.ids)
-
-	return res
-}
+func (c *set) Copy() Set { _ = "STUB: not implemented"; return *new(Set) }
 
 // NewSet creates a new Set from a slice of Identifier objects
-func NewSet(ids ...Identifier) Set {
-	res := &set{
-		ids: make(map[NamespaceAndKind]string, len(ids)),
-	}
-
-	for _, id := range ids {
-		res.ids[id.NamespaceAndKind] = id.Value
-	}
-
-	return res
-}
+func NewSet(ids ...Identifier) Set { _ = "STUB: not implemented"; return *new(Set) }
 
 // NewSetFromMap creates a new Set from a map of NamespaceAndKind to value.
 func NewSetFromMap(ids map[NamespaceAndKind]string) Set {
-	res := &set{
-		ids: make(map[NamespaceAndKind]string, len(ids)),
-	}
-
-	maps.Copy(res.ids, ids)
-
-	return res
+	_ = "STUB: not implemented"
+	return *new(Set)
 }
 
 // ToMap returns the Set as a map of NamespaceAndKind to value from a Set.
-func (c *set) ToMap() map[NamespaceAndKind]string {
-	c.mutex.RLock()
-	defer c.mutex.RUnlock()
-
-	res := make(map[NamespaceAndKind]string, len(c.ids))
-	maps.Copy(res, c.ids)
-
-	return res
-}
+func (c *set) ToMap() map[NamespaceAndKind]string { _ = "STUB: not implemented"; return nil }

@@ -5,9 +5,6 @@
 package notification
 
 import (
-	"maps"
-	"slices"
-
 	"github.com/seatgeek/mailroom/pkg/event"
 	"github.com/seatgeek/mailroom/pkg/identifier"
 	slack2 "github.com/seatgeek/mailroom/pkg/notifier/slack"
@@ -28,86 +25,68 @@ type Builder struct {
 }
 
 // NewBuilder creates a new fluent Builder instance
-func NewBuilder(context event.Context) *Builder {
-	return &Builder{
-		opts: builderOpts{
-			context:             context,
-			recipients:          identifier.NewSet(),
-			messagePerTransport: make(map[event.TransportKey]string),
-		},
-	}
-}
+func NewBuilder(context event.Context) *Builder { _ = "STUB: not implemented"; return nil }
 
 // WithRecipient sets the recipient of the notification
 // It's like WithRecipientIdentifiers, but it accepts a single identifier set
 func (b *Builder) WithRecipient(identifiers identifier.Set) *Builder {
-	b.opts.recipients = identifiers
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WithRecipientIdentifiers sets the recipient of the notification
 // It's like WithRecipient but it accepts multiple identifiers as variadic arguments
 func (b *Builder) WithRecipientIdentifiers(identifiers ...identifier.Identifier) *Builder {
-	b.opts.recipients = identifier.NewSet(identifiers...)
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WithDefaultMessage sets the default message to be used if no message is provided for a specific transport
 func (b *Builder) WithDefaultMessage(message string) *Builder {
-	b.opts.fallbackMessage = message
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WithMessageForTransport sets a specific message to be used for a specific transport
 func (b *Builder) WithMessageForTransport(transportKey event.TransportKey, message string) *Builder {
-	b.opts.messagePerTransport[transportKey] = message
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WithSlackOptions sets the Slack options (like attachments, blocks, etc.) to be used when sending the notification
 func (b *Builder) WithSlackOptions(opts ...slack.MsgOption) *Builder {
-	b.opts.slackOpts = opts
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Build constructs the rich notification object from the previously set options
 func (b *Builder) Build() slack2.RichNotification {
-	return &b.opts
+	_ = "STUB: not implemented"
+	return *new(slack2.RichNotification)
 }
 
 var _ slack2.RichNotification = &builderOpts{}
 
 func (b *builderOpts) Context() event.Context {
-	return b.context
+	_ = "STUB: not implemented"
+	return *new(event.Context)
 }
 
 func (b *builderOpts) Recipient() identifier.Set {
-	return b.recipients
+	_ = "STUB: not implemented"
+	return *new(identifier.Set)
 }
 
-func (b *builderOpts) Render(key event.TransportKey) string {
-	if message, ok := b.messagePerTransport[key]; ok {
-		return message
-	}
+func (b *builderOpts) Render(key event.TransportKey) string { _ = "STUB: not implemented"; return "" }
 
-	return b.fallbackMessage
-}
-
-func (b *builderOpts) GetSlackOptions() []slack.MsgOption {
-	return b.slackOpts
-}
+func (b *builderOpts) GetSlackOptions() []slack.MsgOption { _ = "STUB: not implemented"; return nil }
 
 func (b *builderOpts) WithRecipient(recipient identifier.Set) event.Notification {
-	b.recipients = recipient
-	return b
+	_ = "STUB: not implemented"
+	return *new(event.Notification)
 }
 
 func (b *builderOpts) Copy() event.Notification {
-	return &builderOpts{
-		context:             b.context.Copy(),
-		recipients:          b.recipients.Copy(),
-		fallbackMessage:     b.fallbackMessage,
-		messagePerTransport: maps.Clone(b.messagePerTransport),
-		slackOpts:           slices.Clone(b.slackOpts),
-	}
+	_ = "STUB: not implemented"
+	return *new(event.Notification)
 }

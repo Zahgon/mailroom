@@ -6,18 +6,14 @@ package main
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
 
-	"github.com/google/uuid"
 	"github.com/lmittmann/tint"
 	"github.com/seatgeek/mailroom"
 	"github.com/seatgeek/mailroom/pkg/event"
 	"github.com/seatgeek/mailroom/pkg/identifier"
-	"github.com/seatgeek/mailroom/pkg/notification"
 	"github.com/seatgeek/mailroom/pkg/notifier"
 	"github.com/seatgeek/mailroom/pkg/user"
 )
@@ -32,47 +28,18 @@ var messageSentType = event.Type("com.example.message_sent")
 
 type ExampleParser struct{}
 
-func (p *ExampleParser) EventTypes() []event.TypeDescriptor {
-	return []event.TypeDescriptor{
-		{
-			Key:         messageSentType,
-			Title:       "Message",
-			Description: "A message sent from one user to another",
-		},
-	}
-}
+func (p *ExampleParser) EventTypes() []event.TypeDescriptor { _ = "STUB: not implemented"; return nil }
 
 func (p *ExampleParser) Parse(req *http.Request) (*event.Event, error) {
-	payload := MessageSentEvent{}
-	if err := json.NewDecoder(req.Body).Decode(&payload); err != nil {
-		return nil, err
-	}
-
-	evt := &event.Event{
-		Context: event.Context{
-			ID:     event.ID(uuid.New().String()),
-			Source: event.MustSource("/example/parser"),
-			Type:   messageSentType,
-		},
-		Data: payload,
-	}
-	return evt, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 type NotificationGenerator struct{}
 
 func (p *NotificationGenerator) Process(ctx context.Context, evt event.Event, notifications []event.Notification) ([]event.Notification, error) {
-	payload, ok := evt.Data.(MessageSentEvent)
-	if !ok {
-		return nil, fmt.Errorf("unexpected event data type for NotificationGenerator: %T", evt.Data)
-	}
-
-	newNotification := notification.NewBuilder(evt.Context).
-		WithDefaultMessage(fmt.Sprintf("%s sent you a message: '%s'", payload.AuthorName, payload.Comment)).
-		WithRecipientIdentifiers(identifier.New("email", payload.RecipientEmail)).
-		Build()
-
-	return append(notifications, newNotification), nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // This is an example of how to configure and run mailroom.

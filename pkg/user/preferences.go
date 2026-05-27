@@ -6,8 +6,6 @@ package user
 
 import (
 	"context"
-	"errors"
-	"log/slog"
 
 	"github.com/seatgeek/mailroom/pkg/event"
 	"github.com/seatgeek/mailroom/pkg/notifier/preference"
@@ -20,32 +18,16 @@ type PreferenceProvider struct {
 var _ preference.Provider = (*PreferenceProvider)(nil)
 
 func NewPreferenceProvider(userStore Store) *PreferenceProvider {
-	return &PreferenceProvider{
-		userStore: userStore,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (p PreferenceProvider) Wants(ctx context.Context, notification event.Notification, transport event.TransportKey) *bool {
-	recipientUser := p.getRecipientUserForNotification(ctx, notification)
-	if recipientUser == nil {
-		return nil
-	}
-
-	return recipientUser.Preferences.Wants(ctx, notification, transport)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (p PreferenceProvider) getRecipientUserForNotification(ctx context.Context, notification event.Notification) *User {
-	if p.userStore == nil {
-		return nil
-	}
-
-	usr, err := p.userStore.Find(ctx, notification.Recipient())
-	if err == nil {
-		return usr
-	}
-	if !errors.Is(err, ErrUserNotFound) {
-		slog.WarnContext(ctx, "failed to find user for preference lookup", "recipient", notification.Recipient().String(), "error", err)
-	}
-
+	_ = "STUB: not implemented"
 	return nil
 }
